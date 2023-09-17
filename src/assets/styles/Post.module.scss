@@ -9,6 +9,24 @@
 	align-items: center;
 	gap:12px;
 }
+.text{
+	width: 100%;
+	word-wrap: break-word;
+}
+.tagsContainer{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap:12px;
+}
+.tags{
+	color: aliceblue;
+	display: flex;
+	border-radius: 12px;
+	align-items: center;
+	padding: 5px 10px;
+	background-color: rgba(100, 64, 199, 0.721);
+}
 @media (max-width: $breakpoint-tablet) {
 	.container{
 		display: flex;

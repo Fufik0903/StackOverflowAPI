@@ -10,10 +10,16 @@ const PostComponent = ({ item }) => {
 
 	return (
 		<div className={styles.container}>
-			<span>{display_name}</span>
-			<span>{title}</span>
-			<span>{answer_count}</span>
-			<span>{tags}</span>
+			<span className={styles.text}>{display_name}</span>
+			<span className={styles.text}>{title}</span>
+			<span className={styles.text}>{answer_count}</span>
+			<div className={`${styles.text} ${styles.tagsContainer}`}>
+				{tags?.map((item, index) => (
+					<div className={styles.tags} key={index}>
+						{item}
+					</div>
+				))}
+			</div>
 		</div>
 	);
 };
