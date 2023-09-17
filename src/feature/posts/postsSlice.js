@@ -52,6 +52,9 @@ const postsSlice = createSlice({
 		pageCounter: (state, { payload }) => {
 			state.page = payload;
 		},
+		refreshSearch: (state, { payload }) => {
+			state.list = [];
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(getPosts.pending, (state) => {
@@ -61,7 +64,7 @@ const postsSlice = createSlice({
 			state.isLoading = true;
 		});
 		builder.addCase(getPosts.fulfilled, (state, { payload }) => {
-			state.list = [...payload.list];
+			state.list = state.list.concat(payload.list);
 			state.params = payload.params;
 			state.isLoading = false;
 		});
@@ -72,5 +75,5 @@ const postsSlice = createSlice({
 		});
 	},
 });
-export const { pageCounter } = postsSlice.actions;
+export const { pageCounter, refreshSearch } = postsSlice.actions;
 export default postsSlice.reducer;

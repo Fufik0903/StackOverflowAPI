@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import SearchComponent from "./SearchComponent";
-import { getPosts, pageCounter } from "../../feature/posts/postsSlice";
+import { getPosts, pageCounter, refreshSearch } from "../../feature/posts/postsSlice";
 
 const options = [
 	{ value: "activity", label: "По дате изменения" },
@@ -15,7 +15,8 @@ const orderBy = [
 	{ value: "asc", label: "По возрастанию" },
 ];
 const SearchContainer = () => {
-	const [value, setValue] = useState("");
+	const {posts: { params:{value} }}= useSelector((state)=>state)
+	const [textValue, setTextValue] = useState(value);
 	const [sortValue, setSortValue] = useState(options[0].value);
 	const [orderValue, setOrderValue] = useState(orderBy[0].value);
 	const [validationErr, setValidationErr] = useState(false);
@@ -25,32 +26,32 @@ const SearchContainer = () => {
 		if (e.key == "Enter") {
 			searchPost();
 		} else {
-			setValue(e.target.value);
+			setTextValue(e.target.value);
 		}
 	};
 	const searchPost = async () => {
 		try {
-			if (value == "") {
+			if (textValue == "") {
 				setValidationErr(true);
 			} else {
 				setValidationErr(false);
-				dispatch(getPosts({ value, sortValue, orderValue }));
+				await dispatch(pageCounter(1));
+				await dispatch(refreshSearch())
+				dispatch(getPosts({ value:textValue, sortValue, orderValue }));
 			}
 		} catch (err) {
 			throw new Error(err);
-		} finally {
-			await dispatch(pageCounter(1));
-		}
+		} 
 	};
 
 	useEffect(() => {
-		if (value) setValidationErr(false);
-	}, [value]);
+		if (textValue) setValidationErr(false);
+	}, [textValue]);
 	return (
 		<SearchComponent
 			searchValue={searchValue}
 			searchPost={searchPost}
-			value={value}
+			value={textValue}
 			setSortValue={setSortValue}
 			options={options}
 			setOrderValue={setOrderValue}
