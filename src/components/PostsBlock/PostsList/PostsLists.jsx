@@ -65,7 +65,7 @@ const PostsLists = () => {
 	const firstUpdate = useRef(true);
 	const showMore = async () => {
 		let res = await dispatch(pageCounter(page + 1));
-		dispatch(getPosts({ ...params, page: res.payload }));
+		dispatch(getPosts({ ...params, page: res.payload}));
 	};
 	
 	useEffect(() => {

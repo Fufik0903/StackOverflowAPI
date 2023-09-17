@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { pageContent, postComments, searchPosts } from "../../components/API/API";
+import {
+	pageContent,
+	postComments,
+	searchPosts,
+} from "../../components/API/API";
 
 export const getPosts = createAsyncThunk(
 	"posts/getPosts",
@@ -16,8 +20,12 @@ export const getPosts = createAsyncThunk(
 export const getPost = createAsyncThunk("posts", async (params, thunkApi) => {
 	try {
 		const res = await pageContent(params);
-		const comments = await postComments(params)
-		return { post: res.data.items[0], params, comments: comments.data.items};
+		const comments = await postComments(params);
+		return {
+			post: res.data.items[0],
+			params,
+			comments: comments.data.items,
+		};
 	} catch (err) {
 		console.log(err);
 		return thunkApi.rejectWithValue(err);
@@ -28,7 +36,7 @@ const postsSlice = createSlice({
 	name: "posts",
 	initialState: {
 		post: {},
-		comments:[],
+		comments: [],
 		list: [],
 		params: {
 			value: "",
@@ -53,13 +61,13 @@ const postsSlice = createSlice({
 			state.isLoading = true;
 		});
 		builder.addCase(getPosts.fulfilled, (state, { payload }) => {
-			state.list = state.list.concat(payload.list);
+			state.list = [...payload.list];
 			state.params = payload.params;
 			state.isLoading = false;
 		});
 		builder.addCase(getPost.fulfilled, (state, { payload }) => {
 			state.post = { ...payload.post };
-			state.comments = [...payload.comments]
+			state.comments = [...payload.comments];
 			state.isLoading = false;
 		});
 	},
