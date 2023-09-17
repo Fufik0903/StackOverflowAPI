@@ -39,7 +39,7 @@ const List = ({ list, showMore }) => {
 						</div>
 					)}
 				</>
-			) : <div>Запрос не найден</div>}
+			) : <div className={styles.badRequest}>Запрос не найден</div>}
 		</>
 	);
 };

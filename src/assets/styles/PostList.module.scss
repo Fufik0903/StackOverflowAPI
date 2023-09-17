@@ -32,3 +32,8 @@
 	text-decoration: none;
 	color:inherit
 }
+.badRequest{
+	display: flex;
+	justify-content: center;
+	@include textBold;
+}
