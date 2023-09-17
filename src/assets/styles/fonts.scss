@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@mixin textBold{
+	font-family: "Open Sans";
+    text-align: center;
+	color: #2567C9;
+    font-weight: 600;
+    font-size: 22px;
+}
+@mixin textRegular{
+	font-family: "Open Sans";
+    text-align: center;
+	color: #053C8E;
+    font-weight: 400;
+    font-size: 16px;
+}
