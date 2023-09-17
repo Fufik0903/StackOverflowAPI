@@ -7,11 +7,9 @@ import PostComponent from "./Post/PostComponent";
 import styles from "./../../../assets/styles/PostList.module.scss";
 
 import { getPosts, pageCounter } from "../../../feature/posts/postsSlice";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-
-
-const List = ({ list, showMore }) => {
+const List = ({ list, showMore, firstUpdate }) => {
 	return (
 		<>
 			{list.length > 0 ? (
@@ -24,7 +22,10 @@ const List = ({ list, showMore }) => {
 					</div>
 					<div className={styles.container}>
 						{list.map((item, index) => (
-							<Link key={index} className={styles.link} to={`/post/${item.question_id}`}>
+							<Link
+								key={index}
+								className={styles.link}
+								to={`/post/${item.question_id}`}>
 								<PostComponent item={item} />
 							</Link>
 						))}
@@ -39,7 +40,19 @@ const List = ({ list, showMore }) => {
 						</div>
 					)}
 				</>
-			) : <div className={styles.badRequest}>Запрос не найден</div>}
+			) : (
+				<>
+					{firstUpdate.current ? (
+						<div className={styles.badRequest}>
+							Задайте вопрос
+						</div>
+					) : (
+						<div className={styles.badRequest}>
+							Запрос не найден
+						</div>
+					)}
+				</>
+			)}
 		</>
 	);
 };
@@ -49,17 +62,32 @@ const PostsLists = () => {
 		posts: { list, isLoading, params, page },
 	} = useSelector((state) => state);
 	const dispatch = useDispatch();
-
+	const firstUpdate = useRef(true);
 	const showMore = async () => {
 		let res = await dispatch(pageCounter(page + 1));
 		dispatch(getPosts({ ...params, page: res.payload }));
 	};
-	useEffect(()=>{
-		showMore()
-	},[])
+	
+	useEffect(() => {
+		if (firstUpdate.current) {
+			firstUpdate.current = false;
+			return;
+		} else {
+			showMore();
+		}
+	}, []);
+
 	return (
 		<div>
-			{isLoading ? <Loader /> : <List list={list} showMore={showMore} />}
+			{isLoading ? (
+				<Loader />
+			) : (
+				<List
+					list={list}
+					showMore={showMore}
+					firstUpdate={firstUpdate}
+				/>
+			)}
 		</div>
 	);
 };

@@ -1,4 +1,6 @@
 @import "./fonts.scss";
+
+
 .title {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
@@ -6,6 +8,7 @@
 	align-items: center;
 	@include textBold;
 }
+
 .container {
 	display: flex;
 	flex-direction: column;
@@ -36,4 +39,9 @@
 	display: flex;
 	justify-content: center;
 	@include textBold;
+}
+@media (max-width: $breakpoint-tablet) {
+	.title{
+		display: none;
+	}
 }

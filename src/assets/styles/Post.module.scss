@@ -1,3 +1,4 @@
+@import "./fonts.scss";
 .container{
 	border: 1px solid grey;
 	padding:15px;
@@ -7,4 +8,11 @@
 	grid-template-columns: repeat(4, 1fr);
 	align-items: center;
 	gap:12px;
+}
+@media (max-width: $breakpoint-tablet) {
+	.container{
+		display: flex;
+		flex-direction: column;
+		gap:12px;
+	}
 }
